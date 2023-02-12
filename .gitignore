@@ -1,12 +1,14 @@
 *.o
 *.coff
 *.txt
+*.s
 nachos
 source/nachos-3.4/code/bin/coff2flat
 source/nachos-3.4/code/bin/coff2noff
 source/nachos-3.4/code/bin/dissassemble
 source/nachos-3.4/code/bin/out
 source/nachos-3.4/code/test/echo
+source/nachos-3.4/code/test/shell
 source/nachos-3.4/code/test/cat
 source/nachos-3.4/code/test/copy
 source/nachos-3.4/code/test/createfile
