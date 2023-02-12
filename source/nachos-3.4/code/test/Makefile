@@ -17,7 +17,7 @@ GCCDIR = ../../../gnu-decstation-ultrix/decstation-ultrix/2.95.3/
 
 LDFLAGS = -T script -N
 ASFLAGS = -mips2
-CPPFLAGS = $(INCDIR)
+CPPFLAGS = -P $(INCDIR)
 
 # if you aren't cross-compiling:
 # GCCDIR =
