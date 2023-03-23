@@ -227,3 +227,34 @@ void Machine::IncreasePC() {
     for(int i = 0; i < 3; ++i)
         this -> WriteRegister(addr[i], val[i + 1]);
 }
+
+//----------------------------------------------------------------------
+// Machine::BorrowMemory/TransferMemory
+//   	BorrowMemory means copy memory from user space -> kernel space.
+//   	    There is no need for string termination \0
+//   	    we using char here to represent uint8_t
+//   	    which is not exist in ANSI C.
+//   	TransferMemory means copy memory from kernel space -> user space.
+//----------------------------------------------------------------------
+char * Machine::BorrowMemory(int from, int size) {
+    char *buffer, *ptr_cpy;
+    if(size <= 0) return NULL;
+    buffer = new char[size];
+    ptr_cpy = buffer;
+    while(size--){
+        if(!this -> ReadMem(from++, 1, (int *) ptr_cpy++)){
+            delete [] buffer;
+            return NULL;
+        }
+    }
+    return buffer;
+}
+
+bool Machine::TransferMemory(char *src, int size, int dest) {
+    if(size <= 0) return false;
+    while(size--){
+        if(!this -> WriteMem(dest++, 1, *src++))
+            return false;
+    }
+    return true;
+}

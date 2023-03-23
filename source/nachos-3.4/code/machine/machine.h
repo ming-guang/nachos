@@ -185,6 +185,10 @@ class Machine {
     // Increase the machine (VM) PC
     void IncreasePC();
 
+    // Copying memory between kernel space <-> user space
+    char * BorrowMemory(int from, int size);
+    bool TransferMemory(char *src, int size, int dest);
+
   private:
     bool singleStep;		// drop back into the debugger after each
 				// simulated instruction
