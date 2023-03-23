@@ -48,16 +48,39 @@
 //	are in machine.h.
 //----------------------------------------------------------------------
 
+
+char *exception_name[] = {
+    "",
+    "",
+    "Page fault exception",
+    "Read only exception",
+    "Bus error exception",
+    "Address error exception",
+    "Overflow exception",
+    "Illegal instruction exception",
+    "Number exception"
+};
+
 void
 ExceptionHandler(ExceptionType which)
 {
-    int type = machine->ReadRegister(2);
+    int type = machine -> ReadRegister(2);
+    switch(which){
+        case NoException:
+            break;
 
-    if ((which == SyscallException) && (type == SC_Halt)) {
-	DEBUG('a', "Shutdown, initiated by user program.\n");
-   	interrupt->Halt();
-    } else {
-	printf("Unexpected user mode exception %d %d\n", which, type);
-	ASSERT(FALSE);
+        case SyscallException:
+            if(type == SC_Halt){
+                DEBUG('i', "Halt request by user! Halting...");
+                interrupt -> Halt();
+                return;
+            }
+            break;
+
+        default:
+            DEBUG('a', "User mode exception occur! kind: %s", exception_name[which]);
+            // interrupt -> Halt();
+            return;
     }
+    machine -> IncreasePC();
 }
