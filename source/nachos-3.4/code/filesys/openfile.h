@@ -22,9 +22,9 @@
 
 #define STDIN "//stdin"
 #define STDOUT "//stdout"
-#define FileCanReadBit 0
-#define FileCanWriteBit 1
-#define FileIsConsoleBit 2
+#define FileCanRead 0x01
+#define FileCanWrite 0x02
+#define FileIsConsole 0x4
 #define STDINMode 0x5
 #define STDOUTMode 0x6
 
@@ -35,6 +35,7 @@ class FileHeader;
 
 class OpenFile {
   public:
+    OpenFile(char *name);
     OpenFile(char *name, int mode);
     ~OpenFile();			// Close the file
     
@@ -50,6 +51,7 @@ class OpenFile {
     int fd;                     // File descriptor of the file
     int mode;                   // File open mode
     char *name;
+    void Init(char *name, int mode);
     bool CanRead();
     bool CanWrite();
     bool IsConsole();

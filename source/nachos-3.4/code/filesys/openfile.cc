@@ -31,7 +31,9 @@
 //          Reserved file will be enforced to use 0x5 and 0x6
 //----------------------------------------------------------------------
 
-OpenFile::OpenFile(char *name, int mode){
+void
+OpenFile::Init(char *name, int mode)
+{
     this -> name = NULL;
     this -> fd = 0;
     if(strcmp(name, STDIN) == 0){
@@ -44,6 +46,14 @@ OpenFile::OpenFile(char *name, int mode){
     this -> mode = mode;
     if(this -> fd > 0)
         this -> name = strcpy(this -> name, name);
+}
+
+OpenFile::OpenFile(char *name){ 
+    this -> Init(name, FileCanRead | FileCanWrite);
+}
+
+OpenFile::OpenFile(char *name, int mode){
+    this -> Init(name, mode);
 }
 
 //----------------------------------------------------------------------
@@ -147,17 +157,17 @@ OpenFile::Unlink()
 bool 
 OpenFile::CanRead()
 {
-    return (this -> mode >> FileCanReadBit) & 1;
+    return this -> mode & FileCanRead;
 }
 
 bool 
 OpenFile::CanWrite()
 {
-    return (this -> mode >> FileCanWriteBit) & 1;
+    return this -> mode & FileCanWrite;
 }
 
 bool 
 OpenFile::IsConsole()
 {
-    return (this -> mode >> FileIsConsoleBit) & 1;
+    return this -> mode & FileIsConsole;
 }
