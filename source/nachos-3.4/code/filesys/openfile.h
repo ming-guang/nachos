@@ -39,6 +39,7 @@ class OpenFile {
     OpenFile(char *name, int mode);
     ~OpenFile();			// Close the file
     
+    int oid; 
     bool Opened();
     void Seek(int position); 		// Set the position from which to 
     int Read(char *into, int numBytes); // Read/write bytes from the file

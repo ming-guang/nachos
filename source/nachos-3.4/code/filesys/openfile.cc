@@ -34,6 +34,7 @@
 void
 OpenFile::Init(char *name, int mode)
 {
+    this -> oid = -1;
     this -> name = NULL;
     this -> fd = 0;
     if(strcmp(name, STDIN) == 0){

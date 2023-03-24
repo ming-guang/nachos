@@ -42,6 +42,7 @@ class FileSystem {
   public:
     FileSystem(bool format);
     ~FileSystem();
+    OpenFile* Open(char *name);
     OpenFile* Open(char *name, int mode); 	// Open a file (UNIX open)
     OpenFile* Get(int oid);
     bool Remove(int oid);                   // Delete a file (UNIX unlink)

@@ -96,6 +96,12 @@ FileSystem::~FileSystem()
 //----------------------------------------------------------------------
 
 OpenFile *
+FileSystem::Open(char *name)
+{
+    return this -> Open(name, FileCanRead | FileCanWrite);
+}
+
+OpenFile *
 FileSystem::Open(char *name, int mode)
 {
     int free_slot = -1;
@@ -116,6 +122,7 @@ FileSystem::Open(char *name, int mode)
         delete file;
         return NULL;
     }
+    file -> oid = free_slot;
     this -> table[free_slot] = file;
     return file; 
 }
