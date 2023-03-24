@@ -27,7 +27,7 @@
 //      mode:
 //          First bit is to check if the file is allowed to read
 //          Second bit is to check if the file is allowed to write
-//          Third bit is to check if the file is using console I/O
+//          Third bit is to check if the file is using synchConsole I/O
 //          Reserved file will be enforced to use 0x5 and 0x6
 //----------------------------------------------------------------------
 
@@ -103,7 +103,7 @@ OpenFile::Read(char *into, int numBytes)
     if(!this -> CanRead())
         return -1;
     if(this -> IsConsole())
-        return console -> Read(into, numBytes);
+        return synchConsole -> Read(into, numBytes);
     return ReadPartial(this -> fd, into, numBytes);
 }
 
@@ -113,7 +113,7 @@ OpenFile::Write(char *from, int numBytes)
     if(!this -> CanWrite())
         return -1;
     if(this -> IsConsole())
-        return console -> Write(from, numBytes);
+        return synchConsole -> Write(from, numBytes);
     WriteFile(this -> fd, from, numBytes);
     return numBytes;
 }
