@@ -24,6 +24,7 @@
 #include "copyright.h"
 #include "system.h"
 #include "syscall.h"
+#include "syscall_handler.h"
 
 //----------------------------------------------------------------------
 // ExceptionHandler

@@ -1,5 +1,6 @@
 #include "system.h"
 #include "syscall.h"
+#include "syscall_handler.h"
 
 int SyscallFS::Handle(int type) {
     switch(type){

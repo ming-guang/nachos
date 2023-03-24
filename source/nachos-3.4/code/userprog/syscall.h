@@ -122,17 +122,6 @@ void Fork(void (*func)());
 /* Yield the CPU to another runnable thread, whether in this address space 
  * or not. 
  */
-void Yield();		
-
+void Yield();
 #endif /* IN_ASM */
-
-namespace SyscallFS {
-    int Handle(int type);
-    int Create();
-    int Open();
-    int Read();
-    int Write();
-    int Delete();
-    int Seek();
-}
 #endif /* SYSCALL_H */
