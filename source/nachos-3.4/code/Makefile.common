@@ -80,6 +80,7 @@ USERPROG_H = ../userprog/addrspace.h\
 USERPROG_C = ../userprog/addrspace.cc\
 	../userprog/bitmap.cc\
 	../userprog/exception.cc\
+	../userprog/syscall_fs.cc\
 	../userprog/progtest.cc\
 	../machine/console.cc\
 	../machine/machine.cc\
