@@ -75,6 +75,8 @@ ExceptionHandler(ExceptionType which)
                 interrupt -> Halt();
                 return;
             }
+
+            machine -> WriteRegister(2, SyscallHandler(type));
             break;
 
         default:
@@ -83,4 +85,15 @@ ExceptionHandler(ExceptionType which)
             return;
     }
     machine -> IncreasePC();
+}
+
+int SyscallHandler(int type) {
+    switch(type){
+        case SC_Create:
+        case SC_Open:
+        case SC_Read:
+        case SC_Write:
+            return SyscallFS::Handle(type);
+    }
+    return -1;
 }
