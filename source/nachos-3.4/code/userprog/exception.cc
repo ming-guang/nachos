@@ -24,6 +24,7 @@
 #include "copyright.h"
 #include "system.h"
 #include "syscall.h"
+#include "syscall_handler.h"
 
 //----------------------------------------------------------------------
 // ExceptionHandler
@@ -48,16 +49,52 @@
 //	are in machine.h.
 //----------------------------------------------------------------------
 
+
+char *exception_name[] = {
+    "",
+    "",
+    "Page fault exception",
+    "Read only exception",
+    "Bus error exception",
+    "Address error exception",
+    "Overflow exception",
+    "Illegal instruction exception",
+    "Number exception"
+};
+
 void
 ExceptionHandler(ExceptionType which)
 {
-    int type = machine->ReadRegister(2);
+    int type = machine -> ReadRegister(2);
+    switch(which){
+        case NoException:
+            break;
 
-    if ((which == SyscallException) && (type == SC_Halt)) {
-	DEBUG('a', "Shutdown, initiated by user program.\n");
-   	interrupt->Halt();
-    } else {
-	printf("Unexpected user mode exception %d %d\n", which, type);
-	ASSERT(FALSE);
+        case SyscallException:
+            if(type == SC_Halt){
+                DEBUG('i', "Halt request by user! Halting...");
+                interrupt -> Halt();
+                return;
+            }
+
+            machine -> WriteRegister(2, SyscallHandler(type));
+            break;
+
+        default:
+            DEBUG('a', "User mode exception occur! kind: %s", exception_name[which]);
+            // interrupt -> Halt();
+            return;
     }
+    machine -> IncreasePC();
+}
+
+int SyscallHandler(int type) {
+    switch(type){
+        case SC_Create:
+        case SC_Open:
+        case SC_Read:
+        case SC_Write:
+            return SyscallFS::Handle(type);
+    }
+    return -1;
 }

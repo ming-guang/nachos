@@ -212,3 +212,67 @@ void Machine::WriteRegister(int num, int value)
 	registers[num] = value;
     }
 
+//----------------------------------------------------------------------
+// Machine::IncreasePC
+//   	Increase all related PC register.
+//   	Since the machine is a 32-bit system
+//   	    we will increase the PC by 4 bytes.
+//----------------------------------------------------------------------
+void Machine::IncreasePC() {
+    int addr[3] = {PrevPCReg, PCReg, NextPCReg};
+    int val[4] = {0, 0, 0, 0};
+    for(int i = 0; i < 3; ++i)
+        val[i] = this -> ReadRegister(addr[i]);
+    val[3] = val[2] + 4;
+    for(int i = 0; i < 3; ++i)
+        this -> WriteRegister(addr[i], val[i + 1]);
+}
+
+//----------------------------------------------------------------------
+// Machine::BorrowMemory/TransferMemory
+//   	BorrowMemory means copy memory from user space -> kernel space.
+//   	    There is no need for string termination \0
+//   	    we using char here to represent uint8_t
+//   	    which is not exist in ANSI C.
+//   	BorrowString is same with BorrowMemory but stop at \0
+//   	    current MaxStrLength is 255 (+1).
+//   	TransferMemory means copy memory from kernel space -> user space.
+//----------------------------------------------------------------------
+char * Machine::BorrowMemory(int from, int size) {
+    char *buffer, *ptr_cpy;
+    if(size <= 0) return NULL;
+    buffer = new char[size];
+    ptr_cpy = buffer;
+    while(size--){
+        if(!this -> ReadMem(from++, 1, (int *) ptr_cpy++)){
+            delete [] buffer;
+            return NULL;
+        }
+    }
+    return buffer;
+}
+
+char * Machine::BorrowString(int from) {
+    int size = MaxStrLength;
+    char *buffer = new char[MaxStrLength];
+    char *ptr_cpy = buffer;
+    while(size--){
+        if(!this -> ReadMem(from++, 1, (int *) ptr_cpy++)){
+            delete [] buffer;
+            return NULL;
+        }
+        if(*(ptr_cpy - 1))
+            break;
+    }
+    buffer[MaxStrLength - 1] = NULL;
+    return buffer;
+}
+
+bool Machine::TransferMemory(char *src, int size, int dest) {
+    if(size <= 0) return false;
+    while(size--){
+        if(!this -> WriteMem(dest++, 1, *src++))
+            return false;
+    }
+    return true;
+}

@@ -35,6 +35,7 @@
 #define NumPhysPages    32
 #define MemorySize 	(NumPhysPages * PageSize)
 #define TLBSize		4		// if there is a TLB, make it small
+#define MaxStrLength 256
 
 enum ExceptionType { NoException,           // Everything ok!
 		     SyscallException,      // A program executed a system call.
@@ -182,6 +183,14 @@ class Machine {
     TranslationEntry *pageTable;
     unsigned int pageTableSize;
 
+    // Increase the machine (VM) PC
+    void IncreasePC();
+
+    // Copying memory between kernel space <-> user space
+    char * BorrowMemory(int from, int size);
+    char * BorrowString(int from);
+    bool TransferMemory(char *src, int size, int dest);
+
   private:
     bool singleStep;		// drop back into the debugger after each
 				// simulated instruction
@@ -193,7 +202,7 @@ extern void ExceptionHandler(ExceptionType which);
 				// Entry point into Nachos for handling
 				// user system calls and exceptions
 				// Defined in exception.cc
-
+extern int SyscallHandler(int type);
 
 // Routines for converting Words and Short Words to and from the
 // simulated machine's format of little endian.  If the host machine
