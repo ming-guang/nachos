@@ -37,14 +37,19 @@ class OpenFile {
   public:
     OpenFile(char *name, int mode);
     ~OpenFile();			// Close the file
-
+    
+    bool Opened();
     void Seek(int position); 		// Set the position from which to 
     int Read(char *into, int numBytes); // Read/write bytes from the file
     int Write(char *from, int numBytes);
-    
+    int ReadAt(char *into, int numBytes, int position);
+    int WriteAt(char *from, int numBytes, int position);
+    bool Unlink();
+
   private:
     int fd;                     // File descriptor of the file
     int mode;                   // File open mode
+    char *name;
     bool CanRead();
     bool CanWrite();
     bool IsConsole();

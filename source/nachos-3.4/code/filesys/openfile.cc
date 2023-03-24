@@ -32,6 +32,7 @@
 //----------------------------------------------------------------------
 
 OpenFile::OpenFile(char *name, int mode){
+    this -> name = NULL;
     this -> fd = 0;
     if(strcmp(name, STDIN) == 0){
         mode = STDINMode;
@@ -41,6 +42,8 @@ OpenFile::OpenFile(char *name, int mode){
         this -> fd = OpenForReadWrite(name, false);
     }
     this -> mode = mode;
+    if(this -> fd > 0)
+        this -> name = strcpy(this -> name, name);
 }
 
 //----------------------------------------------------------------------
@@ -49,8 +52,20 @@ OpenFile::OpenFile(char *name, int mode){
 //----------------------------------------------------------------------
 
 OpenFile::~OpenFile(){
+    if(this -> name != NULL)
+        delete [] this -> name;
     if(this -> fd > 0)
         Close(this -> fd);
+}
+
+//----------------------------------------------------------------------
+// OpenFile::Opened
+// Check whether the file is opened sucessfully or not
+//----------------------------------------------------------------------
+bool
+OpenFile::Opened()
+{
+    return this -> fd >= 0;
 }
 
 //----------------------------------------------------------------------
@@ -64,8 +79,10 @@ OpenFile::~OpenFile(){
 void
 OpenFile::Seek(int position)
 {
+    if(this -> IsConsole())
+        return;
     Lseek(this -> fd, position, 0);
-}	
+}
 
 //----------------------------------------------------------------------
 // OpenFile::Read/Write
@@ -99,6 +116,32 @@ OpenFile::Write(char *from, int numBytes)
         return console -> Write(from, numBytes);
     WriteFile(this -> fd, from, numBytes);
     return numBytes;
+}
+
+int
+OpenFile::ReadAt(char *into, int numBytes, int position)
+{
+    this -> Seek(position);
+    return this -> Read(into, numBytes);
+}
+
+int
+OpenFile::WriteAt(char *from, int numBytes, int position)
+{
+    this -> Seek(position);
+    return this -> Write(from, numBytes);
+}
+
+//----------------------------------------------------------------------
+// OpenFile::Unlink
+//   Unlink the file from the filesystem, do not close the file
+//----------------------------------------------------------------------
+bool
+OpenFile::Unlink()
+{
+    if(this -> IsConsole())
+        return false;
+    return ::Unlink(this -> name);
 }
 
 bool 
