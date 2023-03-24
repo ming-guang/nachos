@@ -17,3 +17,27 @@ int SyscallFS::Handle(int type) {
     }
     return -1;
 }
+
+int SyscallFS::Create() {
+    return -1;
+}
+
+int SyscallFS::Open() {
+    return -1;
+}
+
+int SyscallFS::Read() {
+    return -1;
+}
+
+int SyscallFS::Write() {
+    return -1;
+}
+
+int SyscallFS::Delete() {
+    return -1;
+}
+
+int SyscallFS::Seek() {
+    return -1;
+}
