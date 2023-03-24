@@ -11,6 +11,7 @@
    "-I../machine",
    "-m32",
    "-DUSER_PROGRAM",
+   "-DFILESYS",
    "-DFILESYS_NEEDED",
    "-DFILESYS_STUB",
    "-DHOST_i386",
