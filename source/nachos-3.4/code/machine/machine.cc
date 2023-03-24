@@ -234,6 +234,8 @@ void Machine::IncreasePC() {
 //   	    There is no need for string termination \0
 //   	    we using char here to represent uint8_t
 //   	    which is not exist in ANSI C.
+//   	BorrowString is same with BorrowMemory but stop at \0
+//   	    current MaxStrLength is 255 (+1).
 //   	TransferMemory means copy memory from kernel space -> user space.
 //----------------------------------------------------------------------
 char * Machine::BorrowMemory(int from, int size) {
@@ -247,6 +249,22 @@ char * Machine::BorrowMemory(int from, int size) {
             return NULL;
         }
     }
+    return buffer;
+}
+
+char * Machine::BorrowString(int from) {
+    int size = MaxStrLength;
+    char *buffer = new char[MaxStrLength];
+    char *ptr_cpy = buffer;
+    while(size--){
+        if(!this -> ReadMem(from++, 1, (int *) ptr_cpy++)){
+            delete [] buffer;
+            return NULL;
+        }
+        if(*(ptr_cpy - 1))
+            break;
+    }
+    buffer[MaxStrLength - 1] = NULL;
     return buffer;
 }
 

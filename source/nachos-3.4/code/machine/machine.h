@@ -35,6 +35,7 @@
 #define NumPhysPages    32
 #define MemorySize 	(NumPhysPages * PageSize)
 #define TLBSize		4		// if there is a TLB, make it small
+#define MaxStrLength 256
 
 enum ExceptionType { NoException,           // Everything ok!
 		     SyscallException,      // A program executed a system call.
@@ -187,6 +188,7 @@ class Machine {
 
     // Copying memory between kernel space <-> user space
     char * BorrowMemory(int from, int size);
+    char * BorrowString(int from);
     bool TransferMemory(char *src, int size, int dest);
 
   private:
