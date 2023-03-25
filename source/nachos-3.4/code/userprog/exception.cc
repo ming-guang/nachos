@@ -92,8 +92,11 @@ int SyscallHandler(int type) {
     switch(type){
         case SC_Create:
         case SC_Open:
+        case SC_Close:
         case SC_Read:
         case SC_Write:
+        case SC_Seek:
+        case SC_Delete:
             return SyscallFS::Handle(type);
     }
     return -1;

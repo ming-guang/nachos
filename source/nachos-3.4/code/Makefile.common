@@ -47,12 +47,15 @@ THREAD_H =../threads/copyright.h\
 	../machine/interrupt.h\
 	../machine/sysdep.h\
 	../machine/stats.h\
-	../machine/timer.h
+	../machine/timer.h\
+	../filesys/filesys.h\
+	../filesys/openfile.h
 
 THREAD_C =../threads/main.cc\
 	../threads/list.cc\
 	../threads/scheduler.cc\
-	../threads/synch.cc \
+	../threads/synch.cc\
+	../threads/synchcons.cc\
 	../threads/synchlist.cc\
 	../threads/system.cc\
 	../threads/thread.cc\
@@ -61,17 +64,17 @@ THREAD_C =../threads/main.cc\
 	../machine/interrupt.cc\
 	../machine/sysdep.cc\
 	../machine/stats.cc\
-	../machine/timer.cc
+	../machine/timer.cc\
+	../filesys/filesys.cc\
+	../filesys/openfile.cc
 
 THREAD_S = ../threads/switch.s
 
-THREAD_O =main.o list.o scheduler.o synch.o synchlist.o system.o thread.o \
-	utility.o threadtest.o interrupt.o stats.o sysdep.o timer.o
+THREAD_O = main.o list.o scheduler.o synch.o synchcons.o synchlist.o system.o thread.o \
+	utility.o threadtest.o interrupt.o stats.o sysdep.o timer.o filesys.o openfile.o
 
 USERPROG_H = ../userprog/addrspace.h\
 	../userprog/bitmap.h\
-	../filesys/filesys.h\
-	../filesys/openfile.h\
 	../machine/console.h\
 	../machine/machine.h\
 	../machine/mipssim.h\
@@ -102,12 +105,10 @@ FILESYS_H =../filesys/directory.h \
 	../machine/disk.h
 FILESYS_C =../filesys/directory.cc\
 	../filesys/filehdr.cc\
-	../filesys/filesys.cc\
 	../filesys/fstest.cc\
-	../filesys/openfile.cc\
 	../filesys/synchdisk.cc\
 	../machine/disk.cc
-FILESYS_O =directory.o filehdr.o filesys.o fstest.o openfile.o synchdisk.o\
+FILESYS_O =directory.o filehdr.o fstest.o synchdisk.o\
 	disk.o
 
 NETWORK_H = ../network/post.h ../machine/network.h
