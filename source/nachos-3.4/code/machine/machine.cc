@@ -261,7 +261,7 @@ char * Machine::BorrowString(int from) {
             delete [] buffer;
             return NULL;
         }
-        if(*(ptr_cpy - 1))
+        if(!*(ptr_cpy - 1))
             break;
     }
     buffer[MaxStrLength - 1] = NULL;
