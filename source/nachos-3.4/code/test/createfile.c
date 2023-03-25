@@ -33,6 +33,6 @@ int main() {
         Write("File creation failed.\n", 1, ConsoleOutput);
         return -1;
     }
-    Write("File created!", -1, ConsoleOutput);
+    Write("File created!\n", -1, ConsoleOutput);
     return 0;
 }
