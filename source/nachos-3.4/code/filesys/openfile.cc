@@ -90,12 +90,18 @@ OpenFile::Opened()
 //	"position" -- the location within the file for the next Read/Write
 //----------------------------------------------------------------------
 
-void
+bool
 OpenFile::Seek(int position)
 {
     if(this -> IsConsole())
-        return;
+        return false;
+    int whence = 0;
+    if(position < 0){
+        ++position;
+        whence = SEEK_END;
+    }
     Lseek(this -> fd, position, 0);
+    return true;
 }
 
 //----------------------------------------------------------------------

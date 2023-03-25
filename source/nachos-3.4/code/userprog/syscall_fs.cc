@@ -123,6 +123,9 @@ int SyscallFS::Seek() {
         DEBUG('a', "Can't open file with an OpenFileId of %d", oid);
         return -1;
     }
-    file -> Seek(position);
+    if(!file -> Seek(position)){
+        DEBUG('a', "Can't seek file with an OpenFileId of %d", oid);
+        return -1;
+    }
     return 0;
 }
