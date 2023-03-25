@@ -8,8 +8,8 @@
 #define BufferSize 256
 
 int ReadLine(char *buffer, int maxLength, OpenFileId oid) {
-    int count = 0;
-    for(int i = 0; i < maxLength; ++i){
+    int count = 0, i = 0;
+    for(i = 0; i < maxLength; ++i){
         Read(&buffer[i], 1, oid);
         ++count;
         if(buffer[i] == '\n' || buffer[i] == 13 || buffer[i] == 0){
