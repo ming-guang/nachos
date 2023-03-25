@@ -35,7 +35,7 @@ int SyscallFS::Create() {
         return -1;
     }
     OpenFile *file = fileSystem -> Open(name);
-    delete name;
+    delete [] name;
     if(file == NULL){
         DEBUG('a', "Unknown error occur on open file");
         return -1;
@@ -52,7 +52,7 @@ int SyscallFS::Open() {
     }
     int mode = machine -> ReadRegister(5);
     OpenFile *file = fileSystem -> Open(name, mode);
-    delete name; 
+    delete [] name; 
     if(file == NULL){
         DEBUG('a', "Unknown error occur on open file");
         return -1;
@@ -69,14 +69,14 @@ int SyscallFS::Read() {
     int toAddr = machine -> ReadRegister(4);
     int size = machine -> ReadRegister(5);
     int oid = machine -> ReadRegister(6);
-    char *buffer = new char[size];
-    if(buffer == NULL){
-        DEBUG('a', "Unable to allocate read buffer");
-        return -1;
-    }
     OpenFile *file = fileSystem -> Get(oid);
     if(file == NULL){
         DEBUG('a', "Can't open file with an OpenFileId of %d", oid);
+        return -1;
+    }
+    char *buffer = new char[size];
+    if(buffer == NULL){
+        DEBUG('a', "Unable to allocate read buffer");
         return -1;
     }
     int count = file -> Read(buffer, size);
