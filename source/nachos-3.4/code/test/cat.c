@@ -37,7 +37,7 @@ int main() {
         Write("\n", -1, ConsoleOutput);
         return -1;
     }
-    while(true){
+    while(1){
         count = Read(buffer, BufferSize, file);
         Write(buffer, count, ConsoleOutput);
         if(count < BufferSize)
