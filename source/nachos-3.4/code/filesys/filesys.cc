@@ -47,10 +47,6 @@
 
 #include "copyright.h"
 
-#include "disk.h"
-#include "bitmap.h"
-#include "directory.h"
-#include "filehdr.h"
 #include "openfile.h"
 #include "filesys.h"
 
