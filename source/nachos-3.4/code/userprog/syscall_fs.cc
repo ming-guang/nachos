@@ -15,6 +15,12 @@ int SyscallFS::Handle(int type) {
 
         case SC_Write:
             return SyscallFS::Write();
+
+        case SC_Delete:
+            return SyscallFS::Delete();
+
+        case SC_Seek:
+            return SyscallFS::Seek();
     }
     return -1;
 }
