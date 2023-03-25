@@ -37,14 +37,9 @@ int SyscallFS::Create() {
         DEBUG('a', "Unable to read file name");
         return -1;
     }
-    OpenFile *file = fileSystem -> Open(name);
+    bool success = fileSystem -> Create(name);
     delete [] name;
-    if(file == NULL){
-        DEBUG('a', "Unknown error occur on open file");
-        return -1;
-    }
-    delete file;
-    return 0;
+    return -1 * !success;
 }
 
 int SyscallFS::Open() {

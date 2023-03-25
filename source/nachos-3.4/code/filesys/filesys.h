@@ -42,6 +42,7 @@ class FileSystem {
   public:
     FileSystem(bool format);
     ~FileSystem();
+    bool Create(char *name);
     OpenFile* Open(char *name);
     OpenFile* Open(char *name, int mode); 	// Open a file (UNIX open)
     OpenFile* Get(int oid);

@@ -81,6 +81,23 @@ FileSystem::~FileSystem()
 }
 
 //----------------------------------------------------------------------
+// FileSystem::Create
+//  Create a file.
+//
+//	"name" -- the text name of the file to be created.
+//----------------------------------------------------------------------
+
+bool
+FileSystem::Create(char *name)
+{
+    int fd = OpenForWrite(name);
+    if(fd < 0)
+        return false;
+    ::Close(fd);
+    return true;
+}
+
+//----------------------------------------------------------------------
 // FileSystem::Open
 // 	Open a file for reading or writing or both. 
 //	To open a file:
