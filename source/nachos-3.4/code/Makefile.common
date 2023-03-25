@@ -75,8 +75,6 @@ THREAD_O = main.o list.o scheduler.o synch.o synchcons.o synchlist.o system.o th
 
 USERPROG_H = ../userprog/addrspace.h\
 	../userprog/bitmap.h\
-	../filesys/filesys.h\
-	../filesys/openfile.h\
 	../machine/console.h\
 	../machine/machine.h\
 	../machine/mipssim.h\

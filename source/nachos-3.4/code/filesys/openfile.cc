@@ -45,8 +45,10 @@ OpenFile::Init(char *name, int mode)
         this -> fd = OpenForReadWrite(name, false);
     }
     this -> mode = mode;
-    if(this -> fd > 0)
+    if(this -> fd > 0){
+        this -> name = new char[strlen(name) + 1];
         this -> name = strcpy(this -> name, name);
+    }
 }
 
 OpenFile::OpenFile(char *name){ 
@@ -63,6 +65,7 @@ OpenFile::OpenFile(char *name, int mode){
 //----------------------------------------------------------------------
 
 OpenFile::~OpenFile(){
+    fileSystem -> Close(this -> oid, false);
     if(this -> name != NULL)
         delete [] this -> name;
     if(this -> fd > 0)

@@ -66,10 +66,10 @@ Console::Console(char *readFile, char *writeFile, VoidFunctionPtr readAvail,
 
 Console::~Console()
 {
-    if (readFileNo != 0)
-	Close(readFileNo);
-    if (writeFileNo != 1)
-	Close(writeFileNo);
+//    if (readFileNo != 0)
+//        Close(readFileNo);
+//    if (writeFileNo != 1)
+//        Close(writeFileNo);
 }
 
 //----------------------------------------------------------------------

@@ -57,7 +57,8 @@
 //----------------------------------------------------------------------
 
 FileSystem::FileSystem(bool format)
-{ 
+{
+    this -> table = NULL;
     this -> capacity = 0;
     this -> Open(STDIN, 0);
     this -> Open(STDOUT, 0);
@@ -72,12 +73,9 @@ FileSystem::FileSystem(bool format)
 
 FileSystem::~FileSystem()
 {
-    OpenFile **table_ptr = this -> table;
-    while(this -> capacity--){
-        if(*table_ptr)
-            delete *table_ptr;
-        ++table_ptr;
-    }
+    for(int i = 0; i < this -> capacity; ++i)
+        if(this -> table[i])
+            delete this -> table[i];
     delete [] this -> table;
 }
 
@@ -102,8 +100,10 @@ FileSystem::Open(char *name, int mode)
 {
     int free_slot = -1;
     for(int i = 0; i < this -> capacity; ++i)
-        if(this -> table[i] == NULL)
+        if(this -> table[i] == NULL){
             free_slot = i;
+            break;
+        }
 
     if(free_slot < 0){
         if(!this -> GrowTable())
@@ -130,9 +130,11 @@ FileSystem::Open(char *name, int mode)
 OpenFile *
 FileSystem::Get(int oid)
 {
+    if(oid < 0)
+        return NULL;
     if(oid >= this -> capacity)
         return NULL;
-    return this -> table[oid]; 
+    return this -> table[oid];
 }
 
 //----------------------------------------------------------------------
@@ -164,13 +166,20 @@ FileSystem::Remove(int oid)
 bool
 FileSystem::Close(int oid)
 {
+    return this -> Close(oid, true);
+}
+
+bool
+FileSystem::Close(int oid, bool dealocate)
+{
     if(!this -> Get(oid))
         return false;
     if(oid <= 1){
         DEBUG('a', "Reserved open file id can't be closed.");
         return false;
     }
-    delete this -> table[oid];
+    if(dealocate)
+        delete this -> table[oid];
     this -> table[oid] = NULL;
     return true;
 }
@@ -198,7 +207,9 @@ FileSystem::GrowTable()
         new_table[i] = this -> table[i];
     for(int i = this -> capacity; i < new_capacity; ++i)
         new_table[i] = NULL;
-    delete [] this -> table;
+    if(this -> table)
+        delete [] this -> table;
     this -> table = new_table;
+    this -> capacity = new_capacity;
     return true;
 }
