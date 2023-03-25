@@ -65,8 +65,8 @@ THREAD_C =../threads/main.cc\
 	../machine/sysdep.cc\
 	../machine/stats.cc\
 	../machine/timer.cc\
-	../filesys/filesys.h\
-	../filesys/openfile.h
+	../filesys/filesys.cc\
+	../filesys/openfile.cc
 
 THREAD_S = ../threads/switch.s
 
