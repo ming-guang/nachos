@@ -25,16 +25,16 @@ int main() {
     int count = 0;
     char name[StrMaxLength], buffer[BufferSize];
     OpenFileId file = -1;
-    Write("Input file: ", 32, ConsoleOutput);
+    Write("Input file: ", -1, ConsoleOutput);
     if(Read(name, StrMaxLength, ConsoleInput) <= 0){
-        Write("Invalid file name.\n", 32, ConsoleOutput);
+        Write("Invalid file name.\n", -1, ConsoleOutput);
         return -1;
     }
     file = Open(name, FileCanRead);
     if(file < 0){
-        Write("Unable to open file ", 32, ConsoleOutput);
-        Write(name, StrMaxLength, ConsoleOutput);
-        Write("\n", 1, ConsoleOutput);
+        Write("Unable to open file ", -1, ConsoleOutput);
+        Write(name, -1, ConsoleOutput);
+        Write("\n", -1, ConsoleOutput);
         return -1;
     }
     while(true){

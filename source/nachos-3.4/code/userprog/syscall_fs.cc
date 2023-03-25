@@ -2,6 +2,8 @@
 #include "syscall.h"
 #include "syscall_handler.h"
 
+#include <strings.h>
+
 int SyscallFS::Handle(int type) {
     switch(type){
         case SC_Create:
@@ -103,7 +105,13 @@ int SyscallFS::Write() {
         DEBUG('a', "Can't open file with an OpenFileId of %d", oid);
         return -1;
     }
-    if(!(buffer = machine -> BorrowMemory(fromAddr, size))){
+    if(size < 0){
+        if(!(buffer = machine -> BorrowString(fromAddr))){
+            DEBUG('a', "Unable to transfer string write buffer to kernel space");
+            return -1;
+        }
+        size = strlen(buffer);
+    } else if(!(buffer = machine -> BorrowMemory(fromAddr, size))){
         DEBUG('a', "Unable to transfer write buffer to kernel space");
         return -1;
     }
