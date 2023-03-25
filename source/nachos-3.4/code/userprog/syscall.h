@@ -32,6 +32,9 @@
 #define SC_Seek     11
 #define SC_Delete   12
 
+#define FileCanRead 0x1
+#define FileCanWrite 0x2
+
 #ifndef IN_ASM
 
 /* The system call interface.  These are the operations the Nachos
@@ -94,7 +97,7 @@ void Create(char *name);
 /* Open the Nachos file "name", and return an "OpenFileId" that can 
  * be used to read and write to the file.
  */
-OpenFileId Open(char *name);
+OpenFileId Open(char *name, int mode);
 
 /* Write "size" bytes from "buffer" to the open file. */
 void Write(char *buffer, int size, OpenFileId id);

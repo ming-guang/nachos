@@ -30,7 +30,7 @@ int main() {
         Write("Invalid file name.\n", 32, ConsoleOutput);
         return -1;
     }
-    file = Open(name);
+    file = Open(name, FileCanRead);
     if(file < 0){
         Write("Unable to open file ", 32, ConsoleOutput);
         Write(name, StrMaxLength, ConsoleOutput);
