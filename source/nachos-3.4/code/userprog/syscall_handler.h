@@ -4,6 +4,7 @@ namespace SyscallFS {
     int Handle(int type);
     int Create();
     int Open();
+    int Close();
     int Read();
     int Write();
     int Delete();

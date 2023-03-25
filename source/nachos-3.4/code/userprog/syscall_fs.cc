@@ -10,6 +10,9 @@ int SyscallFS::Handle(int type) {
         case SC_Open:
             return SyscallFS::Open();
 
+        case SC_Close:
+            return SyscallFS::Close();
+
         case SC_Read:
             return SyscallFS::Read();
 
@@ -26,19 +29,86 @@ int SyscallFS::Handle(int type) {
 }
 
 int SyscallFS::Create() {
-    return -1;
+    char *name = machine -> BorrowString(4);
+    if(name == NULL){
+        DEBUG('a', "Unable to read file name");
+        return -1;
+    }
+    OpenFile *file = fileSystem -> Open(name);
+    delete name;
+    if(file == NULL){
+        DEBUG('a', "Unknown error occur on open file");
+        return -1;
+    }
+    delete file;
+    return 0;
 }
 
 int SyscallFS::Open() {
-    return -1;
+    char *name = machine -> BorrowString(4);
+    if(name == NULL){
+        DEBUG('a', "Unable to read file name");
+        return -1;
+    }
+    int mode = machine -> ReadRegister(5);
+    OpenFile *file = fileSystem -> Open(name, mode);
+    delete name; 
+    if(file == NULL){
+        DEBUG('a', "Unknown error occur on open file");
+        return -1;
+    }
+    return file -> oid;
+}
+
+int SyscallFS::Close() {
+    OpenFileId oid = machine -> ReadRegister(4);
+    return -1 * !fileSystem -> Close(oid);
 }
 
 int SyscallFS::Read() {
-    return -1;
+    int toAddr = machine -> ReadRegister(4);
+    int size = machine -> ReadRegister(5);
+    int oid = machine -> ReadRegister(6);
+    char *buffer = new char[size];
+    if(buffer == NULL){
+        DEBUG('a', "Unable to allocate read buffer");
+        return -1;
+    }
+    OpenFile *file = fileSystem -> Get(oid);
+    if(file == NULL){
+        DEBUG('a', "Can't open file with an OpenFileId of %d", oid);
+        return -1;
+    }
+    int count = file -> Read(buffer, size);
+    if(count <= 0){
+        delete [] buffer;
+        return -1;
+    }
+    if(!machine -> TransferMemory(buffer, count, toAddr)){
+        DEBUG('a', "Unable to transfer read buffer to user space");
+        count = -1;
+    }
+    delete [] buffer;
+    return count;
 }
 
 int SyscallFS::Write() {
-    return -1;
+    int fromAddr = machine -> ReadRegister(4);
+    int size = machine -> ReadRegister(5);
+    int oid = machine -> ReadRegister(6);
+    char *buffer = NULL;
+    OpenFile *file = fileSystem -> Get(oid);
+    if(file == NULL){
+        DEBUG('a', "Can't open file with an OpenFileId of %d", oid);
+        return -1;
+    }
+    if(!(buffer = machine -> BorrowMemory(fromAddr, size))){
+        DEBUG('a', "Unable to transfer write buffer to kernel space");
+        return -1;
+    }
+    int count = file -> Write(buffer, size);
+    delete [] buffer;
+    return count;
 }
 
 int SyscallFS::Delete() {
@@ -46,5 +116,13 @@ int SyscallFS::Delete() {
 }
 
 int SyscallFS::Seek() {
-    return -1;
+    int position = machine -> ReadRegister(4);
+    int oid = machine -> ReadRegister(5);
+    OpenFile *file = fileSystem -> Get(oid);
+    if(file == NULL){
+        DEBUG('a', "Can't open file with an OpenFileId of %d", oid);
+        return -1;
+    }
+    file -> Seek(position);
+    return 0;
 }
