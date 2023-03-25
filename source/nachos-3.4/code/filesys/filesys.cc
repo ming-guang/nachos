@@ -49,6 +49,7 @@
 
 #include "openfile.h"
 #include "filesys.h"
+#include <strings.h>
 
 //----------------------------------------------------------------------
 // FileSystem::FileSystem
@@ -138,7 +139,7 @@ FileSystem::Get(int oid)
 }
 
 //----------------------------------------------------------------------
-// FileSystem::Remove
+// FileSystem::Remove(int oid)
 // 	Delete a file from the file system.  This requires:
 //	    Remove it from the directory
 //
@@ -157,6 +158,39 @@ FileSystem::Remove(int oid)
     if(!file -> Unlink())
         return false;
     return this -> Close(oid);
+}
+
+//----------------------------------------------------------------------
+// FileSystem::Remove(char *name)
+// 	Delete a file from the file system.  This requires:
+// 	    Check if this file ever opened 
+// 	        since this is a "user" call function
+//	    Remove it from the directory
+//
+//	Return TRUE if the file was deleted, FALSE if the file wasn't
+//	in the file system or can't be deleted.
+//----------------------------------------------------------------------
+
+bool
+FileSystem::Remove(char *name)
+{
+    if(name == NULL)
+        return false;
+    for(int i = 0; i < this -> capacity; ++i){
+        OpenFile *file = this -> table[i];
+        if(file == NULL) continue;
+        char *curr_name = file -> Name();
+        if(curr_name == NULL) continue;
+        if(strcmp(curr_name, name) == 0){
+            DEBUG('a', "File with name %s is currently opened", name);
+            return false;
+        }
+    }
+    OpenFile *file = this -> Open(name);
+    if(file == NULL){
+        return false;
+    }
+    return this -> Remove(file -> oid);
 }
 
 //----------------------------------------------------------------------

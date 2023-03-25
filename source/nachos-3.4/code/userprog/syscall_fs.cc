@@ -112,7 +112,14 @@ int SyscallFS::Write() {
 }
 
 int SyscallFS::Delete() {
-    return -1;
+    char *name = machine -> BorrowString(4);
+    if(name == NULL){
+        DEBUG('a', "Unable to read file name");
+        return -1;
+    }
+    bool success = fileSystem -> Remove(name);
+    delete [] name;
+    return -1 * !success;
 }
 
 int SyscallFS::Seek() {

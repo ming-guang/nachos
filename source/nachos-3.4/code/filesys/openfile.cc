@@ -83,6 +83,16 @@ OpenFile::Opened()
 }
 
 //----------------------------------------------------------------------
+// OpenFile::Name
+// Getter for the name field
+//----------------------------------------------------------------------
+char *
+OpenFile::Name()
+{
+    return this -> name;
+}
+
+//----------------------------------------------------------------------
 // OpenFile::Seek
 // 	Change the current location within the open file -- the point at
 //	which the next Read or Write will start from.

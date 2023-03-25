@@ -46,6 +46,7 @@ class FileSystem {
     OpenFile* Open(char *name, int mode); 	// Open a file (UNIX open)
     OpenFile* Get(int oid);
     bool Remove(int oid);                   // Delete a file (UNIX unlink)
+    bool Remove(char *name);
     bool Close(int oid);
     bool Close(int oid, bool dealocate);
 
