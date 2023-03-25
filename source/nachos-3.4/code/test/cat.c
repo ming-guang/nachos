@@ -43,5 +43,6 @@ int main() {
         if(count < BufferSize)
             break;
     }
+    Close(file);
     return 0;
 }
