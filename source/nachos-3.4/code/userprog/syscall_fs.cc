@@ -45,7 +45,8 @@ int SyscallFS::Create() {
 }
 
 int SyscallFS::Open() {
-    char *name = machine -> BorrowString(4);
+    int nameAddr = machine -> ReadRegister(4);
+    char *name = machine -> BorrowString(nameAddr);
     if(name == NULL){
         DEBUG('a', "Unable to read file name");
         return -1;
