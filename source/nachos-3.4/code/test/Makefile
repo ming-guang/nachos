@@ -36,7 +36,7 @@ INCDIR =-I../userprog -I../threads
 CFLAGS = -G 0 -c $(INCDIR)
 
 all: halt shell matmult sort cat createfile \
-	echo copy
+	echo copy delete
 
 start.o: start.s ../userprog/syscall.h
 	$(CPP) $(CPPFLAGS) start.c > strt.s
@@ -90,3 +90,9 @@ copy.o: copy.c
 copy: copy.o start.o
 	$(LD) $(LDFLAGS) start.o copy.o -o copy.coff
 	../bin/coff2noff copy.coff copy
+
+delete.o: delete.c
+	$(CC) $(CFLAGS) -c delete.c
+delete: delete.o start.o
+	$(LD) $(LDFLAGS) start.o delete.o -o delete.coff
+	../bin/coff2noff delete.coff delete
