@@ -2,6 +2,8 @@
 #include "syscall.h"
 #include "syscall_handler.h"
 
+#include <strings.h>
+
 int SyscallFS::Handle(int type) {
     switch(type){
         case SC_Create:
@@ -29,23 +31,20 @@ int SyscallFS::Handle(int type) {
 }
 
 int SyscallFS::Create() {
-    char *name = machine -> BorrowString(4);
+    int nameAddr = machine -> ReadRegister(4);
+    char *name = machine -> BorrowString(nameAddr);
     if(name == NULL){
         DEBUG('a', "Unable to read file name");
         return -1;
     }
-    OpenFile *file = fileSystem -> Open(name);
+    bool success = fileSystem -> Create(name);
     delete [] name;
-    if(file == NULL){
-        DEBUG('a', "Unknown error occur on open file");
-        return -1;
-    }
-    delete file;
-    return 0;
+    return -1 * !success;
 }
 
 int SyscallFS::Open() {
-    char *name = machine -> BorrowString(4);
+    int nameAddr = machine -> ReadRegister(4);
+    char *name = machine -> BorrowString(nameAddr);
     if(name == NULL){
         DEBUG('a', "Unable to read file name");
         return -1;
@@ -102,7 +101,13 @@ int SyscallFS::Write() {
         DEBUG('a', "Can't open file with an OpenFileId of %d", oid);
         return -1;
     }
-    if(!(buffer = machine -> BorrowMemory(fromAddr, size))){
+    if(size < 0){
+        if(!(buffer = machine -> BorrowString(fromAddr))){
+            DEBUG('a', "Unable to transfer string write buffer to kernel space");
+            return -1;
+        }
+        size = strlen(buffer);
+    } else if(!(buffer = machine -> BorrowMemory(fromAddr, size))){
         DEBUG('a', "Unable to transfer write buffer to kernel space");
         return -1;
     }
@@ -112,7 +117,8 @@ int SyscallFS::Write() {
 }
 
 int SyscallFS::Delete() {
-    char *name = machine -> BorrowString(4);
+    int nameAddr = machine -> ReadRegister(4);
+    char *name = machine -> BorrowString(nameAddr);
     if(name == NULL){
         DEBUG('a', "Unable to read file name");
         return -1;
