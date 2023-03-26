@@ -262,7 +262,7 @@ Close(int fd)
 bool 
 Unlink(char *name)
 {
-    return unlink(name);
+    return unlink(name) == 0;
 }
 
 //----------------------------------------------------------------------
