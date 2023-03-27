@@ -1,0 +1,382 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% University Assignment Title Page 
+% LaTeX Template
+% Version 1.0 (27/12/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% WikiBooks (http://en.wikibooks.org/wiki/LaTeX/Title_Creation)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+% Instructions for using this template:
+% This title page is capable of being compiled as is. This is not useful for 
+% including it in another document. To do this, you have two options: 
+%
+% 1) Copy/paste everything between \begin{document} and \end{document} 
+% starting at \begin{titlepage} and paste this into another LaTeX file where you 
+% want your title page.
+% OR
+% 2) Remove everything outside the \begin{titlepage} and \end{titlepage} and 
+% move this file to the same directory as the LaTeX file you wish to add it to. 
+% Then add \input{./title_page_1.tex} to your LaTeX file where you want your
+% title page.
+%t
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Báo cáo đồ án}
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt]{article}
+\usepackage[T5]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese,english]{babel}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{scrextend}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
+
+\begin{document}
+
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+ 
+%----------------------------------------------------------------------------------------
+%	HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+\textsc{\LARGE Đại học Khoa học tự nhiên}\\[1.0cm] % Name of your university/college
+\textsc{\large Môn học: Hệ điều hành }\\[0.5cm] % Minor heading such as course title
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Hệ thống tập tin}\\[0.2cm] % Title of your document
+\HRule \\[1.5cm]
+ 
+%----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Thành viên nhóm 18:}\\
+{\fontsize{10}{12}\selectfont Nguyễn Trần Minh Quang - 20127298}\\
+{\fontsize{10}{12}\selectfont Lê Hoàng Long - 18127047}\\
+{\fontsize{10}{12}\selectfont Lê Tiến Đạt - 21127569}\\
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Giảng viên:} \\
+Phạm Tuấn Sơn % Supervisor's Name
+\end{flushright}
+\end{minipage}\\[1cm]
+
+% If you don't want a supervisor, uncomment the two lines below and remove the section above
+%\Large \emph{Author:}\\
+%John \textsc{Smith}\\[3cm] % Your name
+
+%----------------------------------------------------------------------------------------
+%	DATE SECTION
+%----------------------------------------------------------------------------------------
+
+% I don't want day because it is English
+% {\large \today}\\[2cm] % Date, change the \today to a set date if you want to be precise
+
+%----------------------------------------------------------------------------------------
+%	LOGO SECTION
+%----------------------------------------------------------------------------------------
+
+\includegraphics{image/logo/logo-hcmus.png}\\[1cm] % Include a department/university logo - this will require the graphicx package
+ 
+%----------------------------------------------------------------------------------------
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+
+\renewcommand*\contentsname{Mục lục}
+\tableofcontents
+\vfill
+
+
+\section{Thay đổi cấu trúc hệ điều hành Nachos}
+\subsection{Quản lý program counter}
+Mặc định hệ điều hành Nachos chưa cài đặt xử lý các exception, các syscall nên chưa có xử lý tăng \textbf{program counter} khi chương trình thực thi xong.
+
+Nếu không tăng sau khi chương trình thực hiện xong thì sẽ dẫn đến hiện tượng loop trong hệ điều hành Nachos.
+
+Qua khảo sát file \textit{machine.h} ta thấy được có 3 thanh ghi quản lý \textbf{program counter} là:
+\begin{lstlisting}[caption={Định nghĩa PC}, label={lst:vdcode}, language=C++]
+#define PCReg		34	// Current program counter
+#define NextPCReg	35	// Next program counter
+#define PrevPCReg	36	// Previous program counter
+\end{lstlisting}
+
+\vskip 0.5cm
+
+Qua đó nhóm em đã bắt đầu định nghĩa \textbf{IncreasePC()} là một method trong lớp \textbf{Machine} ở \textit{machine.h}
+\begin{lstlisting}[caption={Định nghĩa IncreasePC()}, label={lst:vdcode}, language=C++]
+class Machine {
+    public:
+        // [ ... ]
+        void IncreasePC();
+
+    private:
+        // [ ... ]
+};
+\end{lstlisting}
+
+\subsubsection{Cài đặt IncreasePC()}
+Thực hiện tăng program counter qua các bước:
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 1: } Chép giá trị từ thanh ghi \textit{PCReg}, \textit{NextPCReg} vào lần lượt các thanh ghi \textit{PrevPCReg}, \textit{PCReg}
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 2: } tăng giá trị thanh ghi \textit{NextPCReg} với một giá trị là \textbf{4} vì Nachos là một hệ thống 32-bit
+\end{addmargin}
+
+\subsection{Cài đặt sử dụng SynchConsole}
+Để hỗ trợ đọc và ghi ra console ta cần sử dụng lớp \textbf{SynchConsole}, để thuận tiện cho việc thuận tiện nhóm em đã định nghĩa biến toàn cục \textbf{synchConsole} ở \textit{system.h}
+\begin{lstlisting}[caption={Định nghĩa biến synchConsole}, label={lst:vdcode}, language=C++]
+extern SynchConsole *synchConsole;
+\end{lstlisting}
+
+\subsection{Giao tiếp bộ nhớ kernel space và user space}
+Bọn em định nghĩa 3 method mới vào lớp \textbf{Machine} đó là \textbf{BorrowMemory()}, \textbf{TransferMemory()} và \textbf{BorrowMemory()}
+
+Hàm \textbf{BorrowMemory()} có nhiệm vụ chuyển bộ nhớ từ user space vào kernel space, sẽ nhận vào địa chỉ bộ nhớ ở user space và kích thước, sử dụng \textbf{Machine\#ReadMem()} đọc một khoảng có kích thước được yêu cầu từ bộ nhớ ở user space và chép nó vô một mảng được allocate ở kernel space. Trả về một pointer nếu thành công, \textbf{NULL} nếu thất bại
+
+Hàm \textbf{TransferMemory()} có nhiệm vụ chuyển bộ nhớ từ kernel space vào user space, sẽ nhận vào một pointer, kích thước và địa chỉ bộ nhớ ở user space, sử dụng \textbf{Machine\#WriteMem()} sao chép thông tin từ kernel space vào địa chỉ với kích thước được yêu cầu. Trả về \textbf{TRUE} nếu thành công, và ngược lại \textbf{FALSE} nếu thất bại
+
+Hàm \textbf{BorrowString()} nhiệm vụ và cách hoạt động giống \textbf{BorrowMemory()} nhưng chỉ cần nhận địa chỉ bộ nhớ ở user space và sẽ dừng khi gặp ký tự \textbf{NULL} hoặc ghi đạt đến giới hạn là \textbf{256} ký tự
+
+\subsection{Xử lý exception và hộ trợ gọi các syscall}
+Với hầu hết các exception, xử dụng macro \textbf{DEBUG} để in ra exception để người dùng biết được lỗi gì đã xảy
+
+Với exception \textbf{NoException} không gì xảy ra thì chỉ tăng PC
+
+Với exception \textbf{SyscallException}, gọi hàm \textbf{SyscallHandler()} mà nhóm em định nghĩa, hàm này sẽ xử lý và trả về một số nguyên tương ứng với tuỳ response mong muốn của các syscall, sau đó ghi vào thanh ghi số 2, rồi tăng program counter
+
+Riêng syscall \textbf{Halt} thì sẽ \textbf{Halt} cả hệ điều hành Nachos luôn không cần gọi \textbf{SyscallHandler()} hay tăng program counter
+
+Và vì đồ án yêu cầu tạo thêm 2 syscall \textbf{Seek} và \textbf{Delete} nhóm em đã định nghĩa thêm ở \textit{syscall.h}, \textit{start.s} và \textit{start.c}
+
+\subsection{Sửa đổi hệ thống filesystem}
+\subsubsection{Quy định về open mode của file}
+Để thuận tiện nhóm của em đã quy định \textbf{open mode} của file theo giá trị \textbf{1} hoặc \textbf{0} lần lượt tương ứng \textbf{cho phép} hoặc \textbf{không cho phép} tại các vị trí được quy định trước đó
+\begin{addmargin}[40pt]{0pt}
+\textbf{Vị trí 0: }Cho phép đọc
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Vị trí 1: }Cho phép ghi
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Vị trí 2: }Sử dụng console
+\end{addmargin}
+Như vậy file có quyền đọc ghi sẽ có open mode là \textbf{0x1 | 0x2 = 0x3}
+
+\subsubsection{Sửa đổi lớp OpenFile}
+Khảo sát định nghĩa lớp \textbf{OpenFile} nhóm em thấy rằng hiện tại lớp này được sử dụng để giao tiếp với hệ thống file riêng của Nachos và một lớp khác đè lên nếu có define \textit{FS\_STUB} để giao tiếp trực tiếp với hệ thống Linux
+
+Tuy nhiên trong đồ án này cần giao tiếp trực tiếp với hệ thống Linux và các định nghĩa sẵn kia không đủ nên đã thay đổi lại lớp này
+
+Nhận vào \textbf{tên} và \textbf{open mode} với \textbf{open mode} mặc định sẽ là \textbf{0x1 | 0x2 = 0x3}
+
+Ngoài ra bọn em còn chiếm dụng 2 tên là \textbf{//stdin} và \textbf{//stdout}, khi khởi tạo bằng 2 tên này \textbf{open mode} sẽ lần lượt là \textbf{0x1 | 0x4 = 0x5} và \textbf{0x2 | 0x4 = 0x6}
+
+Các hàm Read và Write sẽ kiểm tra quyền theo \textbf{open mode} và nếu được quyền sử dụng console sẽ gọi hàm đọc ghi console tương ứng, nếu không sẽ gọi hàm đọc ghi file trên Linux tương ứng
+
+Hàm Unlink sẽ gọi hàm Unlink tương ứng trên Linux, không cho phép sử dụng nếu là console
+
+\subsubsection{Sửa đổi lớp FileSystem}
+Nhóm em đã thống nhất lại lớp FileSystem và thêm một số method private mới
+\begin{lstlisting}[caption={Thay đổi lớp FileSystem}, label={lst:vdcode}, language=C++]
+class FileSystem {
+    public:
+        // [ ... ]
+
+    private:
+        OpenFile **table;
+        int capacity;
+        bool GrowTable();
+};
+\end{lstlisting}
+
+\vskip 0.5cm
+
+Mảng \textbf{table} sử dụng để lưu các file đã được mở
+
+Biến \textbf{capacity} cho biết sức chứa của \textbf{table}
+
+Hàm \textbf{GrowTable()} sẽ được gọi khi \textbf{table} không còn sức chứa, nó sẽ tạo một mảng mới có sức chứa lớn hơn, sao chép thông tin từ \textbf{table} qua, xoá đi \textbf{table} cũ và trỏ tới mảng mới. Hoạt động khá giống lớp \textbf{Vector} của C++ chỉ khác cách tăng sức chứa.
+
+Ngoài ra lúc construct nhóm em sẽ mở 2 files \textbf{//stdin} và \textbf{//stdout} để 2 \textbf{OpenFileId} có giá trị 0, 1 sẽ lần lượt tương ứng với \textbf{ConsoleInput} và \textbf{ConsoleOutput}
+
+\section{Cài đặt các syscall về hệ thống tập tin}
+Nhóm em đã tách xử lý các syscall liên quan tới hệ thống tập tin ở riêng file \textit{syscall\_fs.cc}
+\subsection{Syscall Create}
+Mục đích của syscall này là để tạo ra một file trống trên hệ điều hành Nachos
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 1: }Lấy địa chỉ tên mong muốn ở thanh ghi số 4
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 2: }Dùng hàm \textbf{Machine\#BorrowString()} để lấy tên mong muốn
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 3: }Gọi \textbf{FileSystem\#Create()} tương ứng
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 4: }Trả về response đã lấy được từ bước trên
+\end{addmargin}
+
+\subsection{Syscall Open}
+Mục đích của syscall này là để mở file
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 1: }Lấy địa chỉ tên mong muốn ở thanh ghi số 4
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 2: }Lấy open mode ở thanh ghi số 5
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 3: }Dùng hàm \textbf{Machine\#BorrowString()} để lấy tên mong muốn
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 4: }Gọi \textbf{FileSystem\#Open()} tương ứng
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 5: }Trả về \textbf{OpenFileId} đã lấy được từ bước trên hoặc -1 nếu trả về lỗi
+\end{addmargin}
+
+\subsection{Syscall Close}
+Mục đích của syscall này là để đóng file
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 1: }Lấy \textbf{OpenFileId} ở thanh ghi số 4
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 2: }Gọi \textbf{FileSystem\#Close()} tương ứng
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 3: }Trả về 0 nếu thành công, -1 nếu bước trên trả về lỗi
+\end{addmargin}
+
+\subsection{Syscall Read}
+Mục đích của syscall này là để đọc file
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 1: }Lấy địa chỉ buffer để đọc vào ở thanh ghi số 4
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 2: }Lấy kích thước ở thanh ghi số 5
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 3: }Lấy \textbf{OpenFileId} ở thanh ghi số 6
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 4: }Lấy \textbf{OpenFile} tương ứng qua \textbf{FileSystem\#Get()}
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 5: }Trả về -1 nếu không lấy được \textbf{OpenFile}
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 6: }Tạo một buffer ở kernel space để đọc vào
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 7: }Trả về -1 nếu không tạo được buffer
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 8: }Sử dụng \textbf{OpenFile\#Read} để đọc vào buffer mới tạo
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 9: }Sử dụng \textbf{Machine\#TransferMemory} để chép thông tin từ buffer vào địa chỉ buffer ở user space lấy được ở \textbf{bước 1}
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 10: }Trả về số bytes đã đọc được từ bước trên hoặc -1 nếu trả về lỗi
+\end{addmargin}
+
+\subsection{Syscall Write}
+Mục đích của syscall này là để ghi file
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 1: }Lấy địa chỉ buffer để ghi vào ở thanh ghi số 4
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 2: }Lấy kích thước ở thanh ghi số 5
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 3: }Lấy \textbf{OpenFileId} ở thanh ghi số 6
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 4: }Lấy \textbf{OpenFile} tương ứng qua \textbf{FileSystem\#Get()}
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 5: }Trả về -1 nếu không lấy được \textbf{OpenFile}
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 6: }Nếu kích thước buffer lấy được ở \textbf{bước 2} có giá trị âm, thì lấy dữ liệu buffer bằng cách sử dụng \textbf{Machine\#BorrowString} và cập nhật kích thước, còn nếu ngược lại thì sử dụng \textbf{Machine\#BorrowMemory}
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 7: }Trả về -1 nếu không chép được dữ liệu từ buffer
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 8: }Sử dụng \textbf{OpenFile\#Write} để ghi từ buffer mới sao chép được
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 9: }Trả về số bytes đã ghi được từ bước trên hoặc -1 nếu trả về lỗi
+\end{addmargin}
+
+\subsection{Syscall Delete}
+Mục đích của syscall này là để xoá file ra khỏi hệ điều hành Nachos
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 1: }Lấy địa chỉ tên mong muốn ở thanh ghi số 4
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 2: }Dùng hàm \textbf{Machine\#BorrowString()} để lấy tên mong muốn
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 3: }Gọi \textbf{FileSystem\#Remove()} tương ứng
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 4: }Trả về 0 nếu thành công hoặc -1 nếu xảy ra lỗi ở bước trên
+\end{addmargin}
+
+\subsection{Syscall Seek}
+Mục đích của syscall này là để di chuyển con trỏ của file tới vị trí mong muốn
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 1: }Lấy vị trí con trỏ mong muốn ở thanh ghi số 4
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 2: }Lấy \textbf{OpenFileId} ở thanh ghi số 5
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 3: }Lấy \textbf{OpenFile} tương ứng qua \textbf{FileSystem\#Get()}
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 4: }Trả về -1 nếu không lấy được \textbf{OpenFile}
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 5: }Gọi \textbf{OpenFile\#Seek()} tương ứng
+\end{addmargin}
+\begin{addmargin}[40pt]{0pt}
+\textbf{Bước 3: }Trả về 0 nếu thành công, -1 nếu bước trên trả về lỗi
+\end{addmargin}
+
+\end{document}
