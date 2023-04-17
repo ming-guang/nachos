@@ -24,6 +24,8 @@
 					// execution stack, for detecting 
 					// stack overflows
 
+int threadCount = 0;
+
 //----------------------------------------------------------------------
 // Thread::Thread
 // 	Initialize a thread control block, so that we can then call
@@ -34,12 +36,12 @@
 
 Thread::Thread(char* threadName)
 {
+    id = threadCount++;
     name = threadName;
     stackTop = NULL;
     stack = NULL;
     status = JUST_CREATED;
 #ifdef USER_PROGRAM
-    id = machine -> ReadRegister(PCReg);
     space = NULL;
 #endif
 }
