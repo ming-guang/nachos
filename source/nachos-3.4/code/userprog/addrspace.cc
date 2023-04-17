@@ -110,7 +110,7 @@ AddrSpace::AddrSpace(OpenFile *executable)
             addrMargin = pageTable[i].physicalPage * PageSize;
             readSize = PageSize;
             seekPos = noffH.code.inFileAddr + i * PageSize;
-            if(seekPos + readSize > noffH.code.size){
+            if(seekPos + readSize >= noffH.code.size){
                 readSize = noffH.code.size - seekPos;
                 complete = 1;
             }
@@ -125,7 +125,7 @@ AddrSpace::AddrSpace(OpenFile *executable)
             addrMargin = pageTable[i].physicalPage * PageSize;
             readSize = PageSize;
             seekPos = noffH.initData.inFileAddr + i * PageSize;
-            if(seekPos + readSize > noffH.initData.size){
+            if(seekPos + readSize >= noffH.initData.size){
                 readSize = noffH.initData.size - seekPos;
                 complete = 1;
             }
