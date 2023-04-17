@@ -37,7 +37,11 @@ int threadCount = 0;
 Thread::Thread(char* threadName)
 {
     id = threadCount++;
-    name = threadName;
+    name = NULL;
+    if(threadName != NULL){
+        name = new char[strlen(threadName) + 1];
+        name = strcpy(name, threadName);
+    }
     stackTop = NULL;
     stack = NULL;
     status = JUST_CREATED;
@@ -63,6 +67,8 @@ Thread::~Thread()
     DEBUG('t', "Deleting thread \"%s\"\n", name);
 
     ASSERT(this != currentThread);
+    if(name != NULL)
+        delete [] name;
     if (stack != NULL)
 	DeallocBoundedArray((char *) stack, StackSize * sizeof(int));
 }
