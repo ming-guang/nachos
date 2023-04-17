@@ -39,6 +39,7 @@ Thread::Thread(char* threadName)
     stack = NULL;
     status = JUST_CREATED;
 #ifdef USER_PROGRAM
+    id = machine -> ReadRegister(PCReg);
     space = NULL;
 #endif
 }
