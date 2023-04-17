@@ -100,6 +100,7 @@ class Thread {
 						// overflowed its stack
     void setStatus(ThreadStatus st) { status = st; }
     char* getName() { return (name); }
+    int getId() { return (id); }
     void Print() { printf("%s, ", name); }
 
   private:
