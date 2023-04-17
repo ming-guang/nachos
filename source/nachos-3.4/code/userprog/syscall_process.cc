@@ -2,6 +2,8 @@
 #include "syscall.h"
 #include "syscall_handler.h"
 
+extern void StartProcess(int arg);
+
 int SyscallProcess::Handle(int type) {
     switch(type){
         case SC_Exec:
@@ -20,8 +22,14 @@ int SyscallProcess::Exec() {
         DEBUG('a', "Unable to read file name");
         return -1;
     }
+    Thread *thread = new Thread(name);
+    if(thread == NULL){
+        delete [] name;
+        return -1;
+    }
+    thread -> Fork(StartProcess, (int) name);
     delete [] name;
-    return -1;
+    return thread -> getId();
 }
 
 int SyscallProcess::Running() {
