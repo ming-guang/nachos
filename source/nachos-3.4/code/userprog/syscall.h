@@ -31,6 +31,8 @@
 #define SC_Yield	10
 #define SC_Seek     11
 #define SC_Delete   12
+#define SC_Exec     13
+#define SC_Running  14
 
 #define FileCanRead 0x1
 #define FileCanWrite 0x2
@@ -116,6 +118,10 @@ void Close(OpenFileId id);
 int Seek(int position, OpenFileId id);
 
 int Delete(char *name);
+
+int Exec(char *name);
+
+int Running(int procId);
 
 /* User-level thread operations: Fork and Yield.  To allow multiple
  * threads to run within a user program. 
