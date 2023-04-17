@@ -34,5 +34,8 @@ int SyscallProcess::Exec() {
 
 int SyscallProcess::Running() {
     int procId = machine -> ReadRegister(4);
-    return -1;
+    if(currentThread -> getId() == procId)
+        return 0;
+    int found = scheduler -> HadThread(procId);
+    return -1 * !found;
 }
