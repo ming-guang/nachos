@@ -145,11 +145,9 @@ Delete:
     syscall
     j   $31
     .end Delete
-Exec:
-    addiu $2,$0,SC_Exec
-    syscall
-    j   $31
-    .end Exec
+
+    .globl Running
+    .ent   Running
 Running:
     addiu $2,$0,SC_Running
     syscall
