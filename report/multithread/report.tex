@@ -1,0 +1,169 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% University Assignment Title Page 
+% LaTeX Template
+% Version 1.0 (27/12/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% WikiBooks (http://en.wikibooks.org/wiki/LaTeX/Title_Creation)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+% Instructions for using this template:
+% This title page is capable of being compiled as is. This is not useful for 
+% including it in another document. To do this, you have two options: 
+%
+% 1) Copy/paste everything between \begin{document} and \end{document} 
+% starting at \begin{titlepage} and paste this into another LaTeX file where you 
+% want your title page.
+% OR
+% 2) Remove everything outside the \begin{titlepage} and \end{titlepage} and 
+% move this file to the same directory as the LaTeX file you wish to add it to. 
+% Then add \input{./title_page_1.tex} to your LaTeX file where you want your
+% title page.
+%t
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Báo cáo đồ án}
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt]{article}
+\usepackage[T5]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese,english]{babel}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{scrextend}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
+
+\begin{document}
+
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+ 
+%----------------------------------------------------------------------------------------
+%	HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+\textsc{\LARGE Đại học Khoa học tự nhiên}\\[1.0cm] % Name of your university/college
+\textsc{\large Môn học: Hệ điều hành }\\[0.5cm] % Minor heading such as course title
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Đa chương}\\[0.2cm] % Title of your document
+\HRule \\[1.5cm]
+ 
+%----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Thành viên nhóm 18:}\\
+{\fontsize{10}{12}\selectfont Nguyễn Trần Minh Quang - 20127298}\\
+{\fontsize{10}{12}\selectfont Lê Hoàng Long - 18127047}\\
+{\fontsize{10}{12}\selectfont Lê Tiến Đạt - 21127569}\\
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{Giảng viên:} \\
+Phạm Tuấn Sơn % Supervisor's Name
+\end{flushright}
+\end{minipage}\\[1cm]
+
+% If you don't want a supervisor, uncomment the two lines below and remove the section above
+%\Large \emph{Author:}\\
+%John \textsc{Smith}\\[3cm] % Your name
+
+%----------------------------------------------------------------------------------------
+%	DATE SECTION
+%----------------------------------------------------------------------------------------
+
+% I don't want day because it is English
+% {\large \today}\\[2cm] % Date, change the \today to a set date if you want to be precise
+
+%----------------------------------------------------------------------------------------
+%	LOGO SECTION
+%----------------------------------------------------------------------------------------
+
+\includegraphics{image/logo/logo-hcmus.png}\\[1cm] % Include a department/university logo - this will require the graphicx package
+ 
+%----------------------------------------------------------------------------------------
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+
+\renewcommand*\contentsname{Mục lục}
+\tableofcontents
+\vfill
+
+
+\section{Cài đặt hỗ trợ đa chương}
+\subsection{Cài đặt phân trang cho lớp Addrspace}
+Trong hệ điều hành Nachos lớp \textit{Addrspace} là lớp biểu diễn vùng bộ nhớ cho mỗi \textbf{Thread}.
+
+Hiện theo cài đặt mặt định lớp này chỉ dùng các vùng đầu tiên trong \textit{bộ nhớ của máy ảo}, cũng như chưa hỗ trợ \textit{paging}.
+
+\subsubsection{Quản lý phân trang (Paging)}
+
+Để quản lý phân trang, nhóm em sử dụng lớp \textit{BitMap} được cài đặt sẵn trong Nachos, lớp này hỗ trợ quản lý đánh dấu và tìm những bit chưa đánh dấu rất phù hợp cho việc quản lý phân trang.
+
+Qua đó nhóm em đã bắt đầu định nghĩa  \textbf{pages} là một biến toàn cục ở \textit{system.h}
+\begin{lstlisting}[caption={Định nghĩa BitMap pages}, label={lst:vdcode}, language=C++]
+extern BitMap *pages;
+\end{lstlisting}
+
+Với kích thước bằng với số trang mà Nachos mong muốn sử dụng.
+
+\subsubsection{Sử dụng trang}
+Trong lớp \textit{Addrspace}, sử dụng \textbf{TranslationEntry} nhằm mục đích lưu các thông tin để ánh xạ \textbf{bộ nhớ của process} với \textbf{bộ nhớ của máy ảo}.
+
+Chỉ cần quan tâm field \textbf{physicalPage}, field này dùng để lưu id trang sử dụng, ta sẽ thay đổi từ sử dụng các trang đầu tiên:
+\begin{lstlisting}[caption={method physicalPage ban đầu}, label={lst:vdcode}, language=C++]
+for (i = 0; i < numPages; i++) {
+    // ...
+    pageTable[i].physicalPage = i;
+    // ...
+}
+\end{lstlisting}
+
+Sang việc tìm kiếm các trang đang trống và chọn nó:
+\begin{lstlisting}[caption={method physicalPage sau chỉnh sửa}, label={lst:vdcode}, language=C++]
+for (i = 0; i < numPages; i++) {
+    // ...
+    pageTable[i].physicalPage = pages -> Find();
+    // ...
+}
+\end{lstlisting}
+
+Sau đó dựa vào field trên và tính toán vị trí phù hợp ở \textbf{bộ nhớ của máy ảo}.
+
+\subsection{Thêm id cho Thread}
+Tạo một biến cục bộ đếm số thread đã tạo ở file \textbf{Thread.cc}, tăng và sử dụng nó để gán vào ID của \textit{Thread} mới được tạo.
+
+\section{Cài đặt các syscall}
+\subsection{Cài đặt syscall Exec}
+Tạo một instance lớp \textit{Thread} gọi method \textbf{Thread\#Fork} chạy hàm \textbf{StartProcess} và trả về id của \textit{Thread} từ instance ban đầu được tạo.
+\end{document}
