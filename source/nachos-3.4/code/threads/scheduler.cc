@@ -153,18 +153,17 @@ Scheduler::Print()
 int
 Scheduler::HadThread(int id)
 {
-    int firstId = -1, found = 0;
+    int first = 1, firstId = -1, found = 0;
     Thread *current = (Thread *) readyList -> Remove();
     if(!current)
         return 0;
     firstId = current -> getId();
-    if(firstId == id)
-        found = 1;
-    while(current -> getId() != firstId){
+    while(first || current -> getId() != firstId){
         if(current -> getId() == id)
             found = 1;
         readyList -> Append((void *) current);
         current = (Thread *) readyList -> Remove();
+        first = 0;
     }
     readyList -> Prepend((void *) current);
     return found;
