@@ -44,6 +44,14 @@ StartProcess(char *filename)
 					// by doing the syscall "exit"
 }
 
+void
+StartProcess(int arg)
+{
+    char *name = (char *) arg;
+    StartProcess(name);
+    delete [] name;
+}
+
 // Data structures needed for the console test.  Threads making
 // I/O requests wait on a Semaphore to delay until the I/O completes.
 

@@ -145,3 +145,26 @@ Scheduler::Print()
     printf("Ready list contents:\n");
     readyList->Mapcar((VoidFunctionPtr) ThreadPrint);
 }
+
+//----------------------------------------------------------------------
+// Scheduler::HadThread
+// 	Check if a thread is in queue or not.
+//----------------------------------------------------------------------
+int
+Scheduler::HadThread(int id)
+{
+    int first = 1, firstId = -1, found = 0;
+    Thread *current = (Thread *) readyList -> Remove();
+    if(!current)
+        return 0;
+    firstId = current -> getId();
+    while(first || current -> getId() != firstId){
+        if(current -> getId() == id)
+            found = 1;
+        readyList -> Append((void *) current);
+        current = (Thread *) readyList -> Remove();
+        first = 0;
+    }
+    readyList -> Prepend((void *) current);
+    return found;
+}

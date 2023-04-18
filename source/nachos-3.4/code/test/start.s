@@ -145,6 +145,14 @@ Delete:
     syscall
     j   $31
     .end Delete
+
+    .globl Running
+    .ent   Running
+Running:
+    addiu $2,$0,SC_Running
+    syscall
+    j   $31
+    .end Running
 /* dummy function to keep gcc happy */
         .globl  __main
         .ent    __main

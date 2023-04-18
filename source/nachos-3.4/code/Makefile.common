@@ -84,6 +84,7 @@ USERPROG_C = ../userprog/addrspace.cc\
 	../userprog/bitmap.cc\
 	../userprog/exception.cc\
 	../userprog/syscall_fs.cc\
+	../userprog/syscall_process.cc\
 	../userprog/progtest.cc\
 	../machine/console.cc\
 	../machine/machine.cc\
@@ -91,7 +92,7 @@ USERPROG_C = ../userprog/addrspace.cc\
 	../machine/translate.cc
 
 USERPROG_O = addrspace.o bitmap.o exception.o progtest.o console.o machine.o \
-	mipssim.o translate.o syscall_fs.o
+	mipssim.o translate.o syscall_fs.o syscall_process.o
 
 VM_H = 
 VM_C = 

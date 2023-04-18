@@ -24,6 +24,8 @@
 					// execution stack, for detecting 
 					// stack overflows
 
+int threadCount = 0;
+
 //----------------------------------------------------------------------
 // Thread::Thread
 // 	Initialize a thread control block, so that we can then call
@@ -34,7 +36,12 @@
 
 Thread::Thread(char* threadName)
 {
-    name = threadName;
+    id = threadCount++;
+    name = NULL;
+    if(threadName != NULL){
+        name = new char[strlen(threadName) + 1];
+        name = strcpy(name, threadName);
+    }
     stackTop = NULL;
     stack = NULL;
     status = JUST_CREATED;
@@ -60,6 +67,8 @@ Thread::~Thread()
     DEBUG('t', "Deleting thread \"%s\"\n", name);
 
     ASSERT(this != currentThread);
+    if(name != NULL)
+        delete [] name;
     if (stack != NULL)
 	DeallocBoundedArray((char *) stack, StackSize * sizeof(int));
 }

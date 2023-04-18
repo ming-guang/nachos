@@ -98,6 +98,10 @@ int SyscallHandler(int type) {
         case SC_Seek:
         case SC_Delete:
             return SyscallFS::Handle(type);
+
+        case SC_Exec:
+        case SC_Running:
+            return SyscallProcess::Handle(type);
     }
     return -1;
 }

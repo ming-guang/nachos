@@ -19,7 +19,7 @@ include ../Makefile.dep
 #-----------------------------------------------------------------
 # DO NOT DELETE THIS LINE -- make depend uses it
 # DEPENDENCIES MUST END AT END OF FILE
-main.o: ../threads/main.cc /usr/include/stdc-predef.h \
+main.o: ../threads/main.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../threads/utility.h ../threads/bool.h \
  ../machine/sysdep.h ../threads/copyright.h /usr/include/stdio.h \
  /usr/include/bits/libc-header-start.h /usr/include/features.h \
@@ -43,7 +43,7 @@ main.o: ../threads/main.cc /usr/include/stdc-predef.h \
  ../filesys/openfile.h ../threads/scheduler.h ../threads/list.h ../threads/synchcons.h \
  ../machine/interrupt.h ../threads/list.h ../threads/synchcons.h ../machine/stats.h \
  ../machine/timer.h
-list.o: ../threads/list.cc /usr/include/stdc-predef.h \
+list.o: ../threads/list.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../threads/list.h ../threads/synchcons.h ../threads/utility.h \
  ../threads/bool.h ../machine/sysdep.h ../threads/copyright.h \
  /usr/include/stdio.h /usr/include/bits/libc-header-start.h \
@@ -62,7 +62,7 @@ list.o: ../threads/list.cc /usr/include/stdc-predef.h \
  /usr/include/bits/floatn-common.h /usr/include/string.h \
  /usr/include/bits/types/locale_t.h /usr/include/bits/types/__locale_t.h \
  /usr/include/strings.h
-scheduler.o: ../threads/scheduler.cc /usr/include/stdc-predef.h \
+scheduler.o: ../threads/scheduler.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../threads/scheduler.h ../threads/list.h ../threads/synchcons.h \
  ../threads/utility.h ../threads/bool.h ../machine/sysdep.h \
  ../threads/copyright.h /usr/include/stdio.h \
@@ -86,7 +86,7 @@ scheduler.o: ../threads/scheduler.cc /usr/include/stdc-predef.h \
  ../userprog/addrspace.h ../filesys/filesys.h ../filesys/openfile.h \
  ../threads/system.h ../machine/interrupt.h ../threads/list.h ../threads/synchcons.h \
  ../machine/stats.h ../machine/timer.h
-synch.o: ../threads/synch.cc /usr/include/stdc-predef.h \
+synch.o: ../threads/synch.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../threads/synch.h ../threads/thread.h \
  ../threads/utility.h ../threads/bool.h ../machine/sysdep.h \
  ../threads/copyright.h /usr/include/stdio.h \
@@ -110,7 +110,7 @@ synch.o: ../threads/synch.cc /usr/include/stdc-predef.h \
  ../filesys/filesys.h ../filesys/openfile.h ../threads/list.h ../threads/synchcons.h \
  ../threads/system.h ../threads/scheduler.h ../machine/interrupt.h \
  ../threads/list.h ../threads/synchcons.h ../machine/stats.h ../machine/timer.h
-synchlist.o: ../threads/synchlist.cc /usr/include/stdc-predef.h \
+synchlist.o: ../threads/synchlist.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../threads/synchlist.h ../threads/list.h ../threads/synchcons.h \
  ../threads/utility.h ../threads/bool.h ../machine/sysdep.h \
  ../threads/copyright.h /usr/include/stdio.h \
@@ -133,7 +133,7 @@ synchlist.o: ../threads/synchlist.cc /usr/include/stdc-predef.h \
  ../machine/machine.h ../threads/utility.h ../machine/translate.h \
  ../machine/disk.h ../userprog/addrspace.h ../filesys/filesys.h \
  ../filesys/openfile.h
-system.o: ../threads/system.cc /usr/include/stdc-predef.h \
+system.o: ../threads/system.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../threads/system.h ../threads/utility.h \
  ../threads/bool.h ../machine/sysdep.h ../threads/copyright.h \
  /usr/include/stdio.h /usr/include/bits/libc-header-start.h \
@@ -156,7 +156,7 @@ system.o: ../threads/system.cc /usr/include/stdc-predef.h \
  ../userprog/addrspace.h ../filesys/filesys.h ../filesys/openfile.h \
  ../threads/scheduler.h ../threads/list.h ../threads/synchcons.h ../machine/interrupt.h \
  ../threads/list.h ../threads/synchcons.h ../machine/stats.h ../machine/timer.h
-thread.o: ../threads/thread.cc /usr/include/stdc-predef.h \
+thread.o: ../threads/thread.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../threads/thread.h ../threads/utility.h \
  ../threads/bool.h ../machine/sysdep.h ../threads/copyright.h \
  /usr/include/stdio.h /usr/include/bits/libc-header-start.h \
@@ -180,7 +180,7 @@ thread.o: ../threads/thread.cc /usr/include/stdc-predef.h \
  ../threads/synch.h ../threads/list.h ../threads/synchcons.h ../threads/system.h \
  ../threads/scheduler.h ../machine/interrupt.h ../threads/list.h ../threads/synchcons.h \
  ../machine/stats.h ../machine/timer.h
-utility.o: ../threads/utility.cc /usr/include/stdc-predef.h \
+utility.o: ../threads/utility.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../threads/utility.h ../threads/bool.h \
  ../machine/sysdep.h ../threads/copyright.h /usr/include/stdio.h \
  /usr/include/bits/libc-header-start.h /usr/include/features.h \
@@ -199,7 +199,7 @@ utility.o: ../threads/utility.cc /usr/include/stdc-predef.h \
  /usr/include/bits/floatn-common.h /usr/include/string.h \
  /usr/include/bits/types/locale_t.h /usr/include/bits/types/__locale_t.h \
  /usr/include/strings.h ../threads/stdarg.h
-threadtest.o: ../threads/threadtest.cc /usr/include/stdc-predef.h \
+threadtest.o: ../threads/threadtest.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../threads/system.h ../threads/utility.h \
  ../threads/bool.h ../machine/sysdep.h ../threads/copyright.h \
  /usr/include/stdio.h /usr/include/bits/libc-header-start.h \
@@ -222,7 +222,7 @@ threadtest.o: ../threads/threadtest.cc /usr/include/stdc-predef.h \
  ../userprog/addrspace.h ../filesys/filesys.h ../filesys/openfile.h \
  ../threads/scheduler.h ../threads/list.h ../threads/synchcons.h ../machine/interrupt.h \
  ../threads/list.h ../threads/synchcons.h ../machine/stats.h ../machine/timer.h
-interrupt.o: ../machine/interrupt.cc /usr/include/stdc-predef.h \
+interrupt.o: ../machine/interrupt.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../machine/interrupt.h ../threads/list.h ../threads/synchcons.h \
  ../threads/copyright.h ../threads/utility.h ../threads/bool.h \
  ../machine/sysdep.h /usr/include/stdio.h \
@@ -246,7 +246,7 @@ interrupt.o: ../machine/interrupt.cc /usr/include/stdc-predef.h \
  ../machine/disk.h ../userprog/addrspace.h ../filesys/filesys.h \
  ../filesys/openfile.h ../threads/scheduler.h ../threads/list.h ../threads/synchcons.h \
  ../machine/interrupt.h ../machine/stats.h ../machine/timer.h
-sysdep.o: ../machine/sysdep.cc /usr/include/stdc-predef.h \
+sysdep.o: ../machine/sysdep.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h /usr/include/stdio.h \
  /usr/include/bits/libc-header-start.h /usr/include/features.h \
  /usr/include/features-time64.h /usr/include/bits/wordsize.h \
@@ -319,7 +319,7 @@ sysdep.o: ../machine/sysdep.cc /usr/include/stdc-predef.h \
  ../userprog/addrspace.h ../filesys/filesys.h ../filesys/openfile.h \
  ../threads/scheduler.h ../threads/list.h ../threads/synchcons.h ../machine/interrupt.h \
  ../machine/stats.h ../machine/timer.h
-stats.o: ../machine/stats.cc /usr/include/stdc-predef.h \
+stats.o: ../machine/stats.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../threads/utility.h ../threads/copyright.h \
  ../threads/bool.h ../machine/sysdep.h /usr/include/stdio.h \
  /usr/include/bits/libc-header-start.h /usr/include/features.h \
@@ -338,7 +338,7 @@ stats.o: ../machine/stats.cc /usr/include/stdc-predef.h \
  /usr/include/bits/floatn-common.h /usr/include/string.h \
  /usr/include/bits/types/locale_t.h /usr/include/bits/types/__locale_t.h \
  /usr/include/strings.h ../machine/stats.h
-timer.o: ../machine/timer.cc /usr/include/stdc-predef.h \
+timer.o: ../machine/timer.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../machine/timer.h ../threads/utility.h \
  ../threads/copyright.h ../threads/bool.h ../machine/sysdep.h \
  /usr/include/stdio.h /usr/include/bits/libc-header-start.h \
@@ -362,7 +362,7 @@ timer.o: ../machine/timer.cc /usr/include/stdc-predef.h \
  ../filesys/openfile.h ../threads/scheduler.h ../threads/list.h ../threads/synchcons.h \
  ../machine/interrupt.h ../threads/list.h ../threads/synchcons.h ../machine/stats.h \
  ../machine/timer.h
-filesys.o: ../filesys/filesys.cc /usr/include/stdc-predef.h \
+filesys.o: ../filesys/filesys.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../machine/timer.h ../threads/utility.h \
  ../threads/copyright.h ../threads/bool.h ../machine/sysdep.h \
  /usr/include/stdio.h /usr/include/bits/libc-header-start.h \
@@ -386,7 +386,7 @@ filesys.o: ../filesys/filesys.cc /usr/include/stdc-predef.h \
  ../filesys/openfile.h ../threads/scheduler.h ../threads/list.h ../threads/synchcons.h \
  ../machine/interrupt.h ../threads/list.h ../threads/synchcons.h ../machine/stats.h \
  ../machine/timer.h
-openfile.o: ../filesys/openfile.cc /usr/include/stdc-predef.h \
+openfile.o: ../filesys/openfile.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../machine/timer.h ../threads/utility.h \
  ../threads/copyright.h ../threads/bool.h ../machine/sysdep.h \
  /usr/include/stdio.h /usr/include/bits/libc-header-start.h \
@@ -410,7 +410,7 @@ openfile.o: ../filesys/openfile.cc /usr/include/stdc-predef.h \
  ../filesys/openfile.h ../threads/scheduler.h ../threads/list.h ../threads/synchcons.h \
  ../machine/interrupt.h ../threads/list.h ../threads/synchcons.h ../machine/stats.h \
  ../machine/timer.h
-addrspace.o: ../userprog/addrspace.cc /usr/include/stdc-predef.h \
+addrspace.o: ../userprog/addrspace.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../threads/system.h ../threads/copyright.h \
  ../threads/utility.h ../threads/bool.h ../machine/sysdep.h \
  /usr/include/stdio.h /usr/include/bits/libc-header-start.h \
@@ -453,7 +453,7 @@ bitmap.o: ../userprog/bitmap.cc /usr/include/stdc-predef.h \
  /usr/include/bits/floatn-common.h /usr/include/string.h \
  /usr/include/bits/types/locale_t.h /usr/include/bits/types/__locale_t.h \
  /usr/include/strings.h ../filesys/openfile.h
-exception.o: ../userprog/exception.cc /usr/include/stdc-predef.h \
+exception.o: ../userprog/exception.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../threads/system.h ../threads/copyright.h \
  ../threads/utility.h ../threads/bool.h ../machine/sysdep.h \
  /usr/include/stdio.h /usr/include/bits/libc-header-start.h \
@@ -477,7 +477,7 @@ exception.o: ../userprog/exception.cc /usr/include/stdc-predef.h \
  ../threads/scheduler.h ../threads/list.h ../threads/synchcons.h ../machine/interrupt.h \
  ../threads/list.h ../threads/synchcons.h ../machine/stats.h ../machine/timer.h \
  ../userprog/syscall.h
-progtest.o: ../userprog/progtest.cc /usr/include/stdc-predef.h \
+progtest.o: ../userprog/progtest.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../threads/system.h ../threads/copyright.h \
  ../threads/utility.h ../threads/bool.h ../machine/sysdep.h \
  /usr/include/stdio.h /usr/include/bits/libc-header-start.h \
@@ -501,7 +501,7 @@ progtest.o: ../userprog/progtest.cc /usr/include/stdc-predef.h \
  ../threads/scheduler.h ../threads/list.h ../threads/synchcons.h ../machine/interrupt.h \
  ../threads/list.h ../threads/synchcons.h ../machine/stats.h ../machine/timer.h \
  ../machine/console.h ../userprog/addrspace.h ../threads/synch.h
-console.o: ../machine/console.cc /usr/include/stdc-predef.h \
+console.o: ../machine/console.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../machine/console.h ../threads/utility.h \
  ../threads/copyright.h ../threads/bool.h ../machine/sysdep.h \
  /usr/include/stdio.h /usr/include/bits/libc-header-start.h \
@@ -525,7 +525,7 @@ console.o: ../machine/console.cc /usr/include/stdc-predef.h \
  ../filesys/openfile.h ../threads/scheduler.h ../threads/list.h ../threads/synchcons.h \
  ../machine/interrupt.h ../threads/list.h ../threads/synchcons.h ../machine/stats.h \
  ../machine/timer.h
-machine.o: ../machine/machine.cc /usr/include/stdc-predef.h \
+machine.o: ../machine/machine.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../machine/machine.h ../threads/utility.h \
  ../threads/copyright.h ../threads/bool.h ../machine/sysdep.h \
  /usr/include/stdio.h /usr/include/bits/libc-header-start.h \
@@ -549,7 +549,7 @@ machine.o: ../machine/machine.cc /usr/include/stdc-predef.h \
  ../filesys/openfile.h ../threads/scheduler.h ../threads/list.h ../threads/synchcons.h \
  ../machine/interrupt.h ../threads/list.h ../threads/synchcons.h ../machine/stats.h \
  ../machine/timer.h
-mipssim.o: ../machine/mipssim.cc /usr/include/stdc-predef.h \
+mipssim.o: ../machine/mipssim.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../machine/machine.h ../threads/utility.h \
  ../threads/copyright.h ../threads/bool.h ../machine/sysdep.h \
  /usr/include/stdio.h /usr/include/bits/libc-header-start.h \
@@ -573,7 +573,7 @@ mipssim.o: ../machine/mipssim.cc /usr/include/stdc-predef.h \
  ../filesys/filesys.h ../filesys/openfile.h ../threads/scheduler.h \
  ../threads/list.h ../threads/synchcons.h ../machine/interrupt.h ../threads/list.h \
  ../machine/stats.h ../machine/timer.h
-translate.o: ../machine/translate.cc /usr/include/stdc-predef.h \
+translate.o: ../machine/translate.cc ../userprog/bitmap.h /usr/include/stdc-predef.h \
  ../threads/copyright.h ../machine/machine.h ../threads/utility.h \
  ../threads/copyright.h ../threads/bool.h ../machine/sysdep.h \
  /usr/include/stdio.h /usr/include/bits/libc-header-start.h \
