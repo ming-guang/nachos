@@ -47,7 +47,9 @@ StartProcess(char *filename)
 void
 StartProcess(int arg)
 {
-    StartProcess((char *) arg);
+    char *name = (char *) arg;
+    StartProcess(name);
+    delete [] name;
 }
 
 // Data structures needed for the console test.  Threads making

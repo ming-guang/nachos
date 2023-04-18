@@ -28,7 +28,6 @@ int SyscallProcess::Exec() {
         return -1;
     }
     thread -> Fork(StartProcess, (int) name);
-    delete [] name;
     return thread -> getId();
 }
 
