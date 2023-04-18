@@ -15,6 +15,6 @@ int main() {
         Halt();
         return 0;
     }
-    while(Running(pingProc) == 0 || Running(pongProc) == 0){ }
+    while(1){ }
     return 0;
 }
