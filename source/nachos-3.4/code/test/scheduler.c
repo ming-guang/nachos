@@ -6,8 +6,6 @@
 
 #include "syscall.h"
 
-#define PrintTime 100
-
 int main() {
     int pingProc, pongProc;
     pingProc = Exec("./test/ping");
@@ -17,6 +15,6 @@ int main() {
         Halt();
         return 0;
     }
-    while(Running(pingProc) || Running(pongProc)){ }
+    while(Running(pingProc) == 0 || Running(pongProc) == 0){ }
     return 0;
 }
